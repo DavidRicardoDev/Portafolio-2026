@@ -39,6 +39,7 @@ const Skills = () => {
                                 {skill.icon_class === 'palette' && <Icons.Palette size={32} />}
                                 {skill.icon_class === 'server' && <Icons.Server size={32} />}
                                 {skill.icon_class === 'database' && <Icons.Database size={32} />}
+                                {skill.icon_class === 'python' && <Icons.Terminal size={32} />}
                             </div>
                             <h3 className="font-semibold text-lg text-slate-700 dark:text-slate-200">{skill.name}</h3>
                             <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-500 font-medium">{skill.category}</span>

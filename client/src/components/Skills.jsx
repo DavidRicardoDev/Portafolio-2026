@@ -26,11 +26,11 @@ const Skills = () => {
                     {t('nav.skills')}
                 </h2>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="flex flex-wrap justify-center gap-6">
                     {skills.map((skill) => (
                         <div
                             key={skill.id}
-                            className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-4 group"
+                            className="p-6 w-[calc(50%-12px)] md:w-[calc(25%-18px)] bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-4 group"
                         >
                             <div className="text-blue-600 dark:text-blue-400 p-3 rounded-full bg-blue-50 dark:bg-slate-700 group-hover:scale-110 transition-transform">
                                 {/* Map common names to Lucide icons manually if dynamic fails or simplify */}

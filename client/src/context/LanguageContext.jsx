@@ -13,6 +13,7 @@ const translations = {
          hero: {
             greeting: 'Hola, soy',
             role: 'Desarrollador Full Stack',
+            subtitle: 'Tecnólogo en Desarrollo de Software',
             description: 'Transformando ideas en experiencias digitales con código limpio y diseño moderno.',
             cta: 'Ver Proyectos',
             cert: 'Ver Certificado',
@@ -51,6 +52,7 @@ const translations = {
         hero: {
             greeting: 'Hi, I am',
             role: 'Full Stack Developer',
+            subtitle: 'Software Development Technologist',
             description: 'Transforming ideas into digital experiences with clean code and modern design.',
             cta: 'View Projects',
             cert: 'View Certificate',

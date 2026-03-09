@@ -5,6 +5,7 @@ import { Github, ExternalLink } from 'lucide-react';
 const Projects = () => {
     const { t, language } = useLanguage();
     const [projects, setProjects] = useState([]);
+    const [showAll, setShowAll] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:3000/api/projects')
@@ -33,12 +34,12 @@ const Projects = () => {
                 </h2>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projects.map((project) => (
+                    {(showAll ? projects : projects.slice(0, 3)).map((project) => (
                         <div key={project.id} className="bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col">
                             <div className="h-48 bg-slate-200 dark:bg-slate-700 flex items-center justify-center relative overflow-hidden group">
                                 {/* Placeholder for project image */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 group-hover:scale-110 transition-transform duration-500" />
-                                <span className="text-slate-400 font-medium">Project Preview</span>
+                                <span className="text-slate-400 font-medium">{t('projects.preview')}</span>
                             </div>
 
                             <div className="p-6 flex-1 flex flex-col">
@@ -60,17 +61,17 @@ const Projects = () => {
                                 <div className="flex gap-4 mt-auto">
                                     {project.repo_url && (
                                         <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                            <Github size={18} /> Code
+                                            <Github size={18} /> {t('projects.code')}
                                         </a>
                                     )}
                                     {project.demo_url && (
                                         project.demo_url.startsWith('/') ? (
-                                            <a href={project.demo_url} className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                <ExternalLink size={18} /> Live Demo
+                                             <a href={project.demo_url} className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                <ExternalLink size={18} /> {t('projects.demo')}
                                             </a>
                                         ) : (
                                             <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                                <ExternalLink size={18} /> Live Demo
+                                                <ExternalLink size={18} /> {t('projects.demo')}
                                             </a>
                                         )
                                     )}
@@ -79,6 +80,23 @@ const Projects = () => {
                         </div>
                     ))}
                 </div>
+
+                {projects.length > 3 && (
+                    <div className="mt-12 flex justify-center">
+                        <button
+                            onClick={() => setShowAll(!showAll)}
+                            className="px-8 py-3 rounded-full border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold hover:border-blue-500 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all flex items-center justify-center gap-2"
+                        >
+                            {showAll ? t('projects.showLess') : t('projects.showMore')}
+                            <svg 
+                                className={`w-5 h-5 transform transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} 
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS projects (
 -- Skills Table
 CREATE TABLE IF NOT EXISTS skills (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) UNIQUE NOT NULL,
     category ENUM('frontend', 'backend', 'tools', 'soft') NOT NULL,
     icon_class VARCHAR(50)
 );

@@ -10,12 +10,36 @@ const translations = {
             projects: 'Proyectos',
             contact: 'Contacto',
         },
-        hero: {
+         hero: {
             greeting: 'Hola, soy',
             role: 'Desarrollador Full Stack',
             description: 'Transformando ideas en experiencias digitales con código limpio y diseño moderno.',
             cta: 'Ver Proyectos',
+            cert: 'Ver Certificado',
         },
+        projects: {
+            preview: 'Vista previa del Proyecto',
+            code: 'Código',
+            demo: 'Demo en Vivo',
+            showMore: 'Mostrar más',
+            showLess: 'Mostrar menos',
+        },
+        contact: {
+            getInTouch: 'Hablemos',
+            description: 'Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tus visiones.',
+            emailMe: 'Envíame un correo a',
+            location: 'Ubicación',
+            remote: 'Remoto / Mundial',
+            name: 'Nombre',
+            email: 'Correo Electrónico',
+            message: 'Mensaje',
+            placeholderName: 'Juan Pérez',
+            placeholderMessage: 'Cuéntame sobre tu proyecto...',
+            sending: 'Enviando...',
+            sendButton: 'Enviar Mensaje',
+            success: '¡Mensaje enviado con éxito!',
+            error: 'Error al enviar. Por favor, inténtalo de nuevo.',
+        }
     },
     en: {
         nav: {
@@ -29,7 +53,31 @@ const translations = {
             role: 'Full Stack Developer',
             description: 'Transforming ideas into digital experiences with clean code and modern design.',
             cta: 'View Projects',
+            cert: 'View Certificate',
         },
+        projects: {
+            preview: 'Project Preview',
+            code: 'Code',
+            demo: 'Live Demo',
+            showMore: 'Show more',
+            showLess: 'Show less',
+        },
+        contact: {
+            getInTouch: 'Get in touch',
+            description: "I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.",
+            emailMe: 'Email me at',
+            location: 'Location',
+            remote: 'Remote / Worldwide',
+            name: 'Name',
+            email: 'Email',
+            message: 'Message',
+            placeholderName: 'John Doe',
+            placeholderMessage: 'Tell me about your project...',
+            sending: 'Sending...',
+            sendButton: 'Send Message',
+            success: 'Message sent successfully!',
+            error: 'Failed to send. Please try again.',
+        }
     },
 };
 

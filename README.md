@@ -80,7 +80,7 @@ Sigue estos pasos para correr el proyecto en tu máquina local.
 
 ## 🤝 Contacto
 
-Puedes contactarme a través del formulario dentro del portafolio o enviando un correo a `contact@davidpena.dev`.
+Puedes contactarme a través del formulario dentro del portafolio o enviando un correo a `contact.davidpenadev@gmail.com`.
 
 ---
 *Desarrollado por David Peña - 2026*

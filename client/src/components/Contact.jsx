@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Send, Mail, MapPin } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
     const { t } = useLanguage();
-    const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const form = useRef();
+    const [formData, setFormData] = useState({ user_name: '', user_email: '', message: '' });
     const [status, setStatus] = useState('');
 
     const handleSubmit = async (e) => {
@@ -12,18 +14,27 @@ const Contact = () => {
         setStatus('sending');
 
         try {
-            const res = await fetch('http://localhost:3000/api/contact', {
+            // First, save to our database (Optional, but good for backup)
+            await fetch('http://localhost:3000/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
+                body: JSON.stringify({
+                    name: formData.user_name,
+                    email: formData.user_email,
+                    message: formData.message
+                }),
+            }).catch(err => console.log('DB Save failed, continuing with email', err));
 
-            if (res.ok) {
-                setStatus('success');
-                setFormData({ name: '', email: '', message: '' });
-            } else {
-                setStatus('error');
-            }
+            // Then, send email via EmailJS
+            await emailjs.sendForm(
+                'service_8xn7a13', 
+                'template_4c7xrze', 
+                form.current, 
+                'D-bZN2fw5FYU1OKNr'
+            );
+
+            setStatus('success');
+            setFormData({ user_name: '', user_email: '', message: '' });
         } catch (err) {
             console.error(err);
             setStatus('error');
@@ -53,7 +64,7 @@ const Contact = () => {
                             </div>
                             <div>
                                 <p className="text-sm text-slate-500">{t('contact.emailMe')}</p>
-                                <p className="font-medium">contact@davidpena.dev</p>
+                                <p className="font-medium">contact.davidpenadev@gmail.com</p>
                             </div>
                         </div>
 
@@ -69,14 +80,14 @@ const Contact = () => {
                     </div>
 
                     {/* Contact Form */}
-                    <form onSubmit={handleSubmit} className="md:w-2/3 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800">
+                    <form ref={form} onSubmit={handleSubmit} className="md:w-2/3 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800">
                         <div className="grid md:grid-cols-2 gap-6 mb-6">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.name')}</label>
                                 <input
                                     type="text"
-                                    name="name"
-                                    value={formData.name}
+                                    name="user_name"
+                                    value={formData.user_name}
                                     onChange={handleChange}
                                     required
                                     className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 outline-none transition-all"
@@ -87,8 +98,8 @@ const Contact = () => {
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.email')}</label>
                                 <input
                                     type="email"
-                                    name="email"
-                                    value={formData.email}
+                                    name="user_email"
+                                    value={formData.user_email}
                                     onChange={handleChange}
                                     required
                                     className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 outline-none transition-all"

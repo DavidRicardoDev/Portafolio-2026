@@ -27,9 +27,9 @@ const Contact = () => {
 
             // Then, send email via EmailJS
             await emailjs.sendForm(
-                'service_8xn7a13', 
-                'template_4c7xrze', 
-                form.current, 
+                'service_8xn7a13',
+                'template_4c7xrze',
+                form.current,
                 'D-bZN2fw5FYU1OKNr'
             );
 
@@ -46,9 +46,12 @@ const Contact = () => {
     return (
         <section id="contact" className="py-20 bg-slate-50 dark:bg-slate-950 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800 dark:text-white">
-                    {t('nav.contact')}
-                </h2>
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white inline-block relative">
+                        {t('nav.contact')}
+                        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+                    </h2>
+                </div>
 
                 <div className="flex flex-col md:flex-row gap-12">
                     {/* Contact Info */}

@@ -9,36 +9,38 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// --- ROUTES ---
+/**
+ * --- CORE API ROUTES ---
+ */
 
 // Health Check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', server_time: new Date() });
 });
 
-// GET /api/projects
+// GET /api/projects - Fetches all projects, real ones first
 app.get('/api/projects', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM projects ORDER BY is_placeholder ASC, created_at DESC');
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error('Project fetch error:', err);
     res.status(500).json({ error: 'Failed to fetch projects' });
   }
 });
 
-// GET /api/skills
+// GET /api/skills - Fetches all technical skills
 app.get('/api/skills', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM skills');
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error('Skills fetch error:', err);
     res.status(500).json({ error: 'Failed to fetch skills' });
   }
 });
 
-// POST /api/contact
+// POST /api/contact - Saves a contact message to the DB
 app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
   if (!name || !email || !message) {
@@ -49,14 +51,15 @@ app.post('/api/contact', async (req, res) => {
     await db.query('INSERT INTO messages (name, email, message) VALUES (?, ?, ?)', [name, email, message]);
     res.json({ message: 'Message sent successfully' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to send message' });
+    console.error('Contact submit error:', err);
+    res.status(500).json({ error: 'Failed to save message locally' });
   }
 });
 
-// --- TODO APP ROUTES ---
+/**
+ * --- TODO APP DEMO ROUTES ---
+ */
 
-// GET /api/todos
 app.get('/api/todos', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM todos ORDER BY created_at DESC');
@@ -66,7 +69,6 @@ app.get('/api/todos', async (req, res) => {
   }
 });
 
-// POST /api/todos
 app.post('/api/todos', async (req, res) => {
   const { text } = req.body;
   try {
@@ -77,7 +79,6 @@ app.post('/api/todos', async (req, res) => {
   }
 });
 
-// PUT /api/todos/:id (Toggle Status)
 app.put('/api/todos/:id', async (req, res) => {
   const { completed } = req.body;
   try {
@@ -88,7 +89,6 @@ app.put('/api/todos/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/todos/:id
 app.delete('/api/todos/:id', async (req, res) => {
   try {
     await db.query('DELETE FROM todos WHERE id = ?', [req.params.id]);
@@ -99,5 +99,5 @@ app.delete('/api/todos/:id', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`\x1b[32m✔ Portfolio Server running on port ${port}\x1b[0m`);
 });

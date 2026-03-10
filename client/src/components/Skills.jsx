@@ -14,10 +14,20 @@ const Skills = () => {
             .catch(err => console.error('Error fetching skills:', err));
     }, []);
 
-    // Helper to dynamically render Lucide icons
-    const renderIcon = (iconName) => {
-        const IconComponent = Icons[iconName] || Icons.Code; // Default to Code icon
-        return <IconComponent size={24} />;
+    // Simplified Icon Mapping
+    const getIcon = (iconClass) => {
+        const iconMap = {
+            'react': Icons.Atom,
+            'palette': Icons.Palette,
+            'server': Icons.Server,
+            'database': Icons.Database,
+            'python': Icons.Terminal,
+            'terminal': Icons.Terminal,
+            'code': Icons.Code2,
+            'globe': Icons.Globe
+        };
+        const IconComponent = iconMap[iconClass.toLowerCase()] || Icons.Code2;
+        return <IconComponent size={32} />;
     };
 
     return (
@@ -44,13 +54,7 @@ const Skills = () => {
                                 className={`relative p-6 w-[calc(50%-12px)] md:w-[calc(25%-18px)] bg-white dark:bg-slate-800 rounded-xl shadow-md transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-start gap-4 group cursor-pointer ${isActive ? 'scale-105 z-20 ring-2 ring-blue-500/50 shadow-xl' : 'hover:-translate-y-1 z-10'}`}
                             >
                                 <div className="text-blue-600 dark:text-blue-400 p-3 rounded-full bg-blue-50 dark:bg-slate-700 group-hover:scale-110 transition-transform">
-                                    {/* Map common names to Lucide icons manually if dynamic fails or simplify */}
-                                    {/* For this MVP, we try dynamic or fallback. in Seed we used 'react', 'palette', 'server', 'database' */}
-                                    {skill.icon_class === 'react' && <Icons.Atom size={32} />}
-                                    {skill.icon_class === 'palette' && <Icons.Palette size={32} />}
-                                    {skill.icon_class === 'server' && <Icons.Server size={32} />}
-                                    {skill.icon_class === 'database' && <Icons.Database size={32} />}
-                                    {skill.icon_class === 'python' && <Icons.Terminal size={32} />}
+                                    {getIcon(skill.icon_class)}
                                 </div>
                                 <div className="text-center w-full relative z-10">
                                     <h3 className="font-semibold text-lg text-slate-700 dark:text-slate-200">{skill.name}</h3>

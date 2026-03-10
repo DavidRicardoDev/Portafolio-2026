@@ -1,86 +1,78 @@
-# David Peña - Full Stack Developer Portfolio
+# David Peña - Full Stack Developer Portfolio 🚀
 
-Bienvenido al repositorio de mi portafolio personal interactivo. Este proyecto no es solo una página de presentación estática, sino una aplicación web Full Stack completa construida para demostrar mis habilidades como desarrollador.
+¡Bienvenido a mi portafolio profesional! Este proyecto es una aplicación Full Stack moderna diseñada para mostrar mis habilidades técnicas, proyectos realizados y mi trayectoria como Tecnólogo en Desarrollo de Software.
 
-![Portfolio Preview](./client/public/vite.svg) <!-- Reemplazar con una captura de pantalla real del portafolio -->
+## ✨ Características Principales
 
-## 🚀 Características Principales
-
-*   **Aplicación Full Stack Real**: Integración completa entre Frontend (React) y Backend (Express + MySQL).
-*   **Gestor de Tareas Integrado**: Incluye un "Live Demo" de una aplicación To-Do funcional para demostrar operaciones CRUD en tiempo real contra la base de datos.
-*   **Soporte Multilingüe**: Cambio de idioma dinámico (Español / Inglés) usando React Context.
-*   **Modo Oscuro/Claro**: Tema completamente adaptable (Dark/Light mode) con Tailwind CSS, guardado localmente para persistencia.
-*   **Diseño Moderno y Responsivo**: Interfaz construida con Tailwind CSS, efectos *glassmorphism* e íconos de Lucide React.
-*   **Formulario de Contacto Funcional**: Los mensajes se guardan directamente en la base de datos MySQL a través de la API REST.
+- **🎨 Diseño Moderno & Premium**: Interfaz fluida con animaciones suaves, modo oscuro/claro y efectos de gradiente corporativos.
+- **🌍 Totalmente Bilingüe**: Soporte completo para Español e Inglés con persistencia de idioma mediante React Context.
+- **📱 Responsivo & Táctil**: Optimizado para dispositivos móviles con interacciones adaptadas específicamente para pantallas táctiles (como tooltips expandibles).
+- **🛠️ Stack Tecnológico Real**: Integración de Frontend (React + Vite) con Backend (Node.js + Express) y base de datos relacional (MySQL).
+- **📧 Formulario de Contacto Pro**: Envío de correos directos mediante EmailJS con respaldo automático en base de datos local para redundancia.
+- **🚀 Demo Integrada**: Incluye un Gestor de Tareas Full Stack funcional para demostrar operaciones CRUD en tiempo real.
 
 ## 🛠️ Tecnologías Utilizadas
 
-**Frontend:**
-*   React 18 + Vite
-*   Tailwind CSS (Estilos y Modo Oscuro)
-*   React Router DOM (Navegación para Demos)
-*   Lucide React (Íconos)
+### Frontend
+- **React 18** (Vite)
+- **Tailwind CSS** (Diseño y Estilos)
+- **Lucide React** (Iconografía moderna)
+- **EmailJS** (Servicio Mensajería a través de API)
 
-**Backend:**
-*   Node.js con Express
-*   MySQL 2 (Base de datos)
-*   CORS & Dotenv
+### Backend
+- **Node.js & Express**
+- **MySQL2** (Gestión de base de datos robusta)
+- **CORS & Dotenv** (Seguridad y configuración de entorno)
+
+## 📦 Instalación y Configuración
+
+Sigue estos pasos para ejecutar el proyecto localmente:
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/tu-usuario/portfolio-2026.git
+cd portfolio-2026
+```
+
+### 2. Configuración del Servidor (Backend)
+```bash
+cd server
+npm install
+```
+Crea un archivo `.env` en la carpeta `server` con tus credenciales:
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=tu_contraseña
+DB_NAME=portfolio_db
+```
+Importa el contenido de `schema.sql` en tu MySQL para generar las tablas.
+
+### 3. Configuración del Cliente (Frontend)
+```bash
+cd ../client
+npm install
+npm run dev
+```
 
 ## 📂 Estructura del Proyecto
 
-El repositorio está dividido en dos partes principales:
+```text
+├── client/          # Aplicación React
+│   ├── src/
+│   │   ├── components/  # Bloques de construcción (Hero, About, Projects, etc.)
+│   │   ├── context/     # Proveedores de estado (Idioma y Tema)
+│   │   └── App.jsx      # Rutas y vista principal
+├── server/          # API REST Node.js
+│   ├── index.js     # Desarrollo de Endpoints y Middleware
+│   ├── db.js        # Enlace a base de datos
+│   └── schema.sql   # Blueprint de la base de datos
+```
 
-*   `/client`: Contiene el código fuente de la aplicación React.
-*   `/server`: Contiene la API REST de Express y los scripts de la base de datos.
+## 👤 David Peña
 
-## ⚙️ Instalación y Uso Local
-
-Sigue estos pasos para correr el proyecto en tu máquina local.
-
-### Prerrequisitos
-*   Node.js instalado.
-*   Servidor MySQL ejecutándose (ej. Laragon, XAMPP, o MySQL Workbench).
-
-### Configuración del Backend (Servidor)
-
-1. Abre una terminal y navega a la carpeta del servidor:
-   ```bash
-   cd server
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-3. Configura tus credenciales de base de datos en `server/.env` (si usas valores distintos a los por defecto, como contraseña `root`).
-4. Inicializa la base de datos y llénala con los datos de prueba:
-   ```bash
-   node seed.js
-   ```
-5. Inicia el servidor:
-   ```bash
-   node index.js
-   ```
-   *(El servidor correrá en `http://localhost:3000`)*
-
-### Configuración del Frontend (Cliente)
-
-1. Abre una nueva terminal y navega a la carpeta del cliente:
-   ```bash
-   cd client
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-3. Inicia la aplicación en modo desarrollo:
-   ```bash
-   npm run dev
-   ```
-   *(La aplicación correrá en `http://localhost:5173`)*
-
-## 🤝 Contacto
-
-Puedes contactarme a través del formulario dentro del portafolio o enviando un correo a `contact.davidpenadev@gmail.com`.
+Soy David Peña, Tecnólogo en Análisis y Desarrollo de Software apasionado por crear soluciones digitales que combinen estética y funcionalidad. Actualmente exploro las fronteras del desarrollo bilingüe y aplicaciones de alto rendimiento.
 
 ---
-*Desarrollado por David Peña - 2026*
+*Desarrollado con ❤️ para el Portafolio David Peña - 2026*

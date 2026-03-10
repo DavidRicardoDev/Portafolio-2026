@@ -23,7 +23,7 @@ const Contact = () => {
                     email: formData.user_email,
                     message: formData.message
                 }),
-            }).catch(err => console.log('DB Save failed, continuing with email', err));
+            }).catch(() => { });
 
             // Then, send email via EmailJS
             await emailjs.sendForm(

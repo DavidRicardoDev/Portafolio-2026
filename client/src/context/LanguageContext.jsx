@@ -6,11 +6,19 @@ const translations = {
     es: {
         nav: {
             home: 'Inicio',
+            about: 'Sobre mí',
             skills: 'Habilidades',
             projects: 'Proyectos',
             contact: 'Contacto',
         },
-         hero: {
+        about: {
+            paragraph1: 'Tengo 23 años y soy Tecnólogo en Análisis y Desarrollo de Software. Durante mi formación me enfoqué principalmente en el desarrollo de aplicaciones web, y actualmente sigo ampliando mis conocimientos de forma autónoma con tecnologías como Python.',
+            paragraph2: 'Mi propósito es diseñar soluciones eficientes a problemas complejos en el ámbito web, así como también desarrollar aplicaciones de escritorio. Soy un profesional en constante aprendizaje, siempre buscando dominar nuevas herramientas y lenguajes de programación.',
+            age: 'Edad',
+            focus: 'Enfoque',
+            mindset: 'Mentalidad',
+        },
+        hero: {
             greeting: 'Hola, soy',
             role: 'Desarrollador Full Stack',
             subtitle: 'Tecnólogo en Desarrollo de Software',
@@ -45,9 +53,17 @@ const translations = {
     en: {
         nav: {
             home: 'Home',
+            about: 'About',
             skills: 'Skills',
             projects: 'Projects',
             contact: 'Contact',
+        },
+        about: {
+            paragraph1: 'I am 23 years old and a Software Analysis and Development Technologist. During my academic training, I focused primarily on web application development, and I am currently expanding my skill set autonomously with technologies like Python.',
+            paragraph2: 'My goal is to design efficient solutions to complex problems in the web environment, as well as to develop desktop applications. I am a professional in constant learning, always looking to master new tools and programming languages.',
+            age: 'Age',
+            focus: 'Focus',
+            mindset: 'Mindset',
         },
         hero: {
             greeting: 'Hi, I am',

@@ -19,7 +19,7 @@ app.get('/api/health', (req, res) => {
 // GET /api/projects
 app.get('/api/projects', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM projects ORDER BY created_at DESC');
+    const [rows] = await db.query('SELECT * FROM projects ORDER BY is_placeholder ASC, created_at DESC');
     res.json(rows);
   } catch (err) {
     console.error(err);

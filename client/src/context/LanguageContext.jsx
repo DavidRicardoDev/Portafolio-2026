@@ -34,6 +34,7 @@ const translations = {
             demo: 'Demo en Vivo',
             showMore: 'Mostrar más',
             showLess: 'Mostrar menos',
+            underConstruction: 'En Construcción',
         },
         contact: {
             getInTouch: 'Hablemos',
@@ -83,6 +84,7 @@ const translations = {
             demo: 'Live Demo',
             showMore: 'Show more',
             showLess: 'Show less',
+            underConstruction: 'Under Construction',
         },
         contact: {
             getInTouch: 'Get in touch',

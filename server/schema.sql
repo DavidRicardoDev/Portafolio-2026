@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS projects (
     technologies JSON,
     repo_url VARCHAR(255),
     demo_url VARCHAR(255),
+    status ENUM('completed', 'construction') DEFAULT 'completed',
+    is_placeholder BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

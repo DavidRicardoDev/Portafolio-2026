@@ -47,7 +47,7 @@ const About = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800 dark:text-slate-200">{t('about.focus')}</h4>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">Full Stack Web & Python</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">{t('about.focusText')}</p>
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@ const About = () => {
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800 dark:text-slate-200">{t('about.mindset')}</h4>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">Continuous Learning</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">{t('about.mindsetText')}</p>
                             </div>
                         </div>
                     </div>

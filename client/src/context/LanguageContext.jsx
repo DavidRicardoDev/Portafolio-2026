@@ -16,7 +16,9 @@ const translations = {
             paragraph2: 'Mi propósito es diseñar soluciones eficientes a problemas complejos en el ámbito web, así como también desarrollar aplicaciones de escritorio. Soy un profesional en constante aprendizaje, siempre buscando dominar nuevas herramientas y lenguajes de programación.',
             age: 'Edad',
             focus: 'Enfoque',
+            focusText: 'Full Stack Web y Python',
             mindset: 'Mentalidad',
+            mindsetText: 'Aprendizaje Continuo',
         },
         hero: {
             greeting: 'Hola, soy',
@@ -63,7 +65,9 @@ const translations = {
             paragraph2: 'My goal is to design efficient solutions to complex problems in the web environment, as well as to develop desktop applications. I am a professional in constant learning, always looking to master new tools and programming languages.',
             age: 'Age',
             focus: 'Focus',
+            focusText: 'Full Stack Web & Python',
             mindset: 'Mindset',
+            mindsetText: 'Continuous Learning',
         },
         hero: {
             greeting: 'Hi, I am',

@@ -3,8 +3,9 @@ import { useLanguage } from '../context/LanguageContext';
 import * as Icons from 'lucide-react';
 
 const Skills = () => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const [skills, setSkills] = useState([]);
+    const [activeSkill, setActiveSkill] = useState(null);
 
     useEffect(() => {
         fetch('http://localhost:3000/api/skills')
@@ -26,25 +27,40 @@ const Skills = () => {
                     {t('nav.skills')}
                 </h2>
 
-                <div className="flex flex-wrap justify-center gap-6">
-                    {skills.map((skill) => (
-                        <div
-                            key={skill.id}
-                            className="p-6 w-[calc(50%-12px)] md:w-[calc(25%-18px)] bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-4 group"
-                        >
-                            <div className="text-blue-600 dark:text-blue-400 p-3 rounded-full bg-blue-50 dark:bg-slate-700 group-hover:scale-110 transition-transform">
-                                {/* Map common names to Lucide icons manually if dynamic fails or simplify */}
-                                {/* For this MVP, we try dynamic or fallback. in Seed we used 'react', 'palette', 'server', 'database' */}
-                                {skill.icon_class === 'react' && <Icons.Atom size={32} />}
-                                {skill.icon_class === 'palette' && <Icons.Palette size={32} />}
-                                {skill.icon_class === 'server' && <Icons.Server size={32} />}
-                                {skill.icon_class === 'database' && <Icons.Database size={32} />}
-                                {skill.icon_class === 'python' && <Icons.Terminal size={32} />}
+                <div className="flex flex-wrap justify-center items-start gap-6">
+                    {skills.map((skill) => {
+                        const isActive = activeSkill === skill.id;
+                        const desc = language === 'es' ? skill.description_es : skill.description_en;
+
+                        return (
+                            <div
+                                key={skill.id}
+                                onMouseEnter={() => setActiveSkill(skill.id)}
+                                onClick={() => setActiveSkill(isActive ? null : skill.id)}
+                                onMouseLeave={() => setActiveSkill(null)}
+                                className={`p-6 w-[calc(50%-12px)] md:w-[calc(25%-18px)] bg-white dark:bg-slate-800 rounded-xl shadow-md transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-start gap-4 group cursor-pointer overflow-hidden ${isActive ? 'scale-105 z-10 ring-2 ring-blue-500/50 shadow-xl' : 'hover:-translate-y-1'}`}
+                            >
+                                <div className="text-blue-600 dark:text-blue-400 p-3 rounded-full bg-blue-50 dark:bg-slate-700 group-hover:scale-110 transition-transform">
+                                    {/* Map common names to Lucide icons manually if dynamic fails or simplify */}
+                                    {/* For this MVP, we try dynamic or fallback. in Seed we used 'react', 'palette', 'server', 'database' */}
+                                    {skill.icon_class === 'react' && <Icons.Atom size={32} />}
+                                    {skill.icon_class === 'palette' && <Icons.Palette size={32} />}
+                                    {skill.icon_class === 'server' && <Icons.Server size={32} />}
+                                    {skill.icon_class === 'database' && <Icons.Database size={32} />}
+                                    {skill.icon_class === 'python' && <Icons.Terminal size={32} />}
+                                </div>
+                                <div className="text-center w-full">
+                                    <h3 className="font-semibold text-lg text-slate-700 dark:text-slate-200">{skill.name}</h3>
+                                    <span className={`text-xs uppercase tracking-wider text-slate-500 dark:text-slate-500 font-medium transition-all ${isActive ? 'hidden' : 'block'}`}>{skill.category}</span>
+                                </div>
+
+                                {/* Expandable description block */}
+                                <div className={`text-sm text-center text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out ${isActive ? 'max-h-40 opacity-100 mt-2' : 'max-h-0 opacity-0 overflow-hidden m-0'}`}>
+                                    {desc}
+                                </div>
                             </div>
-                            <h3 className="font-semibold text-lg text-slate-700 dark:text-slate-200">{skill.name}</h3>
-                            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-500 font-medium">{skill.category}</span>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </div>
         </section>

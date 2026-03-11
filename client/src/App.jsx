@@ -9,6 +9,8 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import TodoDemo from './components/TodoDemo';
 import Footer from './components/Footer';
+import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
 import { ArrowUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -63,6 +65,8 @@ function App() {
             <Routes>
               <Route path="/" element={<HomeScreen />} />
               <Route path="/demos/todo" element={<TodoDemo />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/admin" element={<AdminDashboard />} />
             </Routes>
           </div>
         </BrowserRouter>

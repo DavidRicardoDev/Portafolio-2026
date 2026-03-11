@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Github, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Projects = () => {
     const { t, language } = useLanguage();
     const [projects, setProjects] = useState([]);
     const [showAll, setShowAll] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:3000/api/projects')
@@ -26,6 +28,16 @@ const Projects = () => {
         }
     };
 
+    const handleCardClick = (project) => {
+        if (project.status === 'construction' || !project.demo_url) return;
+        
+        if (project.demo_url.startsWith('/')) {
+            navigate(project.demo_url);
+        } else {
+            window.open(project.demo_url, '_blank', 'noopener,noreferrer');
+        }
+    };
+
     return (
         <section id="projects" className="py-20 bg-white dark:bg-slate-900 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +50,11 @@ const Projects = () => {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {(showAll ? projects : projects.slice(0, 3)).map((project) => (
-                        <div key={project.id} className="bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col">
+                        <div 
+                            key={project.id} 
+                            onClick={() => handleCardClick(project)}
+                            className={`bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col group/card ${project.status !== 'construction' && project.demo_url ? 'cursor-pointer' : ''}`}
+                        >
                             <div className="h-48 bg-slate-200 dark:bg-slate-700 flex items-center justify-center relative overflow-hidden group">
                                 {/* Optional custom image */}
                                 {project.image_url ? (
@@ -86,17 +102,37 @@ const Projects = () => {
                                     {project.status !== 'construction' && (
                                         <>
                                             {project.repo_url && (
-                                                <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                <a 
+                                                    href={project.repo_url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                                >
                                                     <Github size={18} /> {t('projects.code')}
                                                 </a>
                                             )}
                                             {project.demo_url && (
                                                 project.demo_url.startsWith('/') ? (
-                                                    <a href={project.demo_url} className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                    <a 
+                                                        href={project.demo_url} 
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            navigate(project.demo_url);
+                                                        }}
+                                                        className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                                    >
                                                         <ExternalLink size={18} /> {t('projects.demo')}
                                                     </a>
                                                 ) : (
-                                                    <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                                    <a 
+                                                        href={project.demo_url} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer" 
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                                    >
                                                         <ExternalLink size={18} /> {t('projects.demo')}
                                                     </a>
                                                 )

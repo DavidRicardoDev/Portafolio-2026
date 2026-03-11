@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +13,35 @@ app.use(express.json());
 /**
  * --- CORE API ROUTES ---
  */
+
+// --- AUTHENTICATION ---
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  if (password === process.env.ADMIN_PASSWORD) {
+    const token = jwt.sign({ role: 'admin' }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '2h' });
+    res.json({ token });
+  } else {
+    res.status(401).json({ error: 'Invalid password' });
+  }
+});
+
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    jwt.verify(bearerToken, process.env.JWT_SECRET || 'fallback_secret', (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: 'Invalid token' });
+      }
+      req.user = decoded;
+      next();
+    });
+  } else {
+    res.status(401).json({ error: 'Access denied. No token provided.' });
+  }
+};
 
 // Health Check
 app.get('/api/health', (req, res) => {
@@ -29,6 +59,47 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
+// POST /api/projects (Protected)
+app.post('/api/projects', verifyToken, async (req, res) => {
+  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder } = req.body;
+  try {
+    const [result] = await db.query(
+      'INSERT INTO projects (title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status || 'completed', is_placeholder || false]
+    );
+    res.json({ id: result.insertId, message: 'Project created successfully' });
+  } catch (err) {
+    console.error('Project create error:', err);
+    res.status(500).json({ error: 'Failed to create project' });
+  }
+});
+
+// PUT /api/projects/:id (Protected)
+app.put('/api/projects/:id', verifyToken, async (req, res) => {
+  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder } = req.body;
+  try {
+    await db.query(
+      'UPDATE projects SET title_es=?, title_en=?, description_es=?, description_en=?, technologies=?, repo_url=?, demo_url=?, image_url=?, status=?, is_placeholder=? WHERE id=?',
+      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status, is_placeholder, req.params.id]
+    );
+    res.json({ message: 'Project updated successfully' });
+  } catch (err) {
+    console.error('Project update error:', err);
+    res.status(500).json({ error: 'Failed to update project' });
+  }
+});
+
+// DELETE /api/projects/:id (Protected)
+app.delete('/api/projects/:id', verifyToken, async (req, res) => {
+  try {
+    await db.query('DELETE FROM projects WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Project deleted successfully' });
+  } catch (err) {
+    console.error('Project delete error:', err);
+    res.status(500).json({ error: 'Failed to delete project' });
+  }
+});
+
 // GET /api/skills - Fetches all technical skills
 app.get('/api/skills', async (req, res) => {
   try {
@@ -37,6 +108,47 @@ app.get('/api/skills', async (req, res) => {
   } catch (err) {
     console.error('Skills fetch error:', err);
     res.status(500).json({ error: 'Failed to fetch skills' });
+  }
+});
+
+// POST /api/skills (Protected)
+app.post('/api/skills', verifyToken, async (req, res) => {
+  const { name, icon_class, category, description_es, description_en } = req.body;
+  try {
+    const [result] = await db.query(
+      'INSERT INTO skills (name, icon_class, category, description_es, description_en) VALUES (?, ?, ?, ?, ?)',
+      [name, icon_class, category, description_es, description_en]
+    );
+    res.json({ id: result.insertId, message: 'Skill created successfully' });
+  } catch (err) {
+    console.error('Skill create error:', err);
+    res.status(500).json({ error: 'Failed to create skill' });
+  }
+});
+
+// PUT /api/skills/:id (Protected)
+app.put('/api/skills/:id', verifyToken, async (req, res) => {
+  const { name, icon_class, category, description_es, description_en } = req.body;
+  try {
+    await db.query(
+      'UPDATE skills SET name=?, icon_class=?, category=?, description_es=?, description_en=? WHERE id=?',
+      [name, icon_class, category, description_es, description_en, req.params.id]
+    );
+    res.json({ message: 'Skill updated successfully' });
+  } catch (err) {
+    console.error('Skill update error:', err);
+    res.status(500).json({ error: 'Failed to update skill' });
+  }
+});
+
+// DELETE /api/skills/:id (Protected)
+app.delete('/api/skills/:id', verifyToken, async (req, res) => {
+  try {
+    await db.query('DELETE FROM skills WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Skill deleted successfully' });
+  } catch (err) {
+    console.error('Skill delete error:', err);
+    res.status(500).json({ error: 'Failed to delete skill' });
   }
 });
 

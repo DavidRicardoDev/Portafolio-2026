@@ -13,6 +13,7 @@ import Login from './components/Login';
 import AdminDashboard from './components/AdminDashboard';
 import { ArrowUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 function HomeScreen() {
   const [showScroll, setShowScroll] = useState(false);
@@ -68,6 +69,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<AdminDashboard />} />
             </Routes>
+            <Toaster position="bottom-right" toastOptions={{ className: 'dark:bg-slate-800 dark:text-white border dark:border-slate-700' }} />
           </div>
         </BrowserRouter>
       </LanguageProvider>

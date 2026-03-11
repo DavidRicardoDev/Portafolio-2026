@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Plus, Trash2, Edit3, Home, X, Save } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -40,6 +41,7 @@ const AdminDashboard = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
+        toast.success('Sesión cerrada');
         navigate('/login');
     };
 
@@ -51,9 +53,14 @@ const AdminDashboard = () => {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (res.ok) fetchProjects();
+            if (res.ok) {
+                fetchProjects();
+                toast.success('Proyecto eliminado');
+            } else {
+                toast.error('Error al eliminar proyecto');
+            }
         } catch (err) {
-            alert('Error al eliminar');
+            toast.error('Error de conexión');
         }
     };
 
@@ -102,11 +109,12 @@ const AdminDashboard = () => {
             if (res.ok) {
                 setIsModalOpen(false);
                 fetchProjects();
+                toast.success(editingId ? 'Proyecto actualizado' : 'Proyecto creado');
             } else {
-                alert('Error al guardar. Verifica tu sesión.');
+                toast.error('Error al guardar. Verifica tu sesión.');
             }
         } catch (err) {
-            alert('Error de conexión');
+            toast.error('Error de conexión');
         }
     };
 

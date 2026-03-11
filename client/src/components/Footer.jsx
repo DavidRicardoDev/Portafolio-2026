@@ -21,10 +21,10 @@ const Footer = () => {
 
                     {/* Social Links */}
                     <div className="flex gap-6">
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-white dark:bg-slate-900 rounded-full shadow-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition-all">
+                        <a href="https://github.com/DavidRicardoDev" target="_blank" rel="noopener noreferrer" className="p-3 bg-white dark:bg-slate-900 rounded-full shadow-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition-all">
                             <Github size={20} />
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-white dark:bg-slate-900 rounded-full shadow-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition-all">
+                        <a href="https://www.linkedin.com/in/davidricardopena/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white dark:bg-slate-900 rounded-full shadow-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition-all">
                             <Linkedin size={20} />
                         </a>
                         <a href="mailto:contact.davidpenadev@gmail.com" className="p-3 bg-white dark:bg-slate-900 rounded-full shadow-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition-all">

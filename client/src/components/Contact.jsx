@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Send, Mail, MapPin } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { motion } from 'framer-motion';
 
 const Contact = () => {
     const { t } = useLanguage();
@@ -46,16 +47,28 @@ const Contact = () => {
     return (
         <section id="contact" className="py-20 bg-slate-50 dark:bg-slate-950 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-12"
+                >
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white inline-block relative">
                         {t('nav.contact')}
                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
                     </h2>
-                </div>
+                </motion.div>
 
-                <div className="flex flex-col md:flex-row gap-12">
+                <div className="flex flex-col md:flex-row gap-12 overflow-hidden">
                     {/* Contact Info */}
-                    <div className="md:w-1/3 space-y-8">
+                    <motion.div 
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="md:w-1/3 space-y-8"
+                    >
                         <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{t('contact.getInTouch')}</h3>
                         <p className="text-slate-600 dark:text-slate-300">
                             {t('contact.description')}
@@ -80,10 +93,16 @@ const Contact = () => {
                                 <p className="font-medium">{t('contact.remote')}</p>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Contact Form */}
-                    <form ref={form} onSubmit={handleSubmit} className="md:w-2/3 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800">
+                    <motion.form 
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        ref={form} onSubmit={handleSubmit} className="md:w-2/3 bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800"
+                    >
                         <div className="grid md:grid-cols-2 gap-6 mb-6">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.name')}</label>
@@ -140,7 +159,7 @@ const Contact = () => {
                         {status === 'error' && (
                             <p className="mt-4 text-red-600 text-center font-medium animate-fade-in">{t('contact.error')}</p>
                         )}
-                    </form>
+                    </motion.form>
                 </div>
             </div>
         </section>

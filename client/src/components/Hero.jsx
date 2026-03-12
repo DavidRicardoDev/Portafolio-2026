@@ -1,4 +1,5 @@
 import { useLanguage } from '../context/LanguageContext';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
     const { t } = useLanguage();
@@ -11,7 +12,13 @@ const Hero = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col md:flex-row items-center justify-between gap-12">
                 {/* Text Content */}
-                <div className="text-center md:text-left md:w-1/2 z-10">
+                <motion.div 
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="text-center md:text-left md:w-1/2 z-10"
+                >
                     <h2 className="text-xl md:text-2xl font-medium text-blue-600 dark:text-blue-400 mb-4 tracking-wide">
                         {t('hero.greeting')} David Peña
                     </h2>
@@ -52,10 +59,16 @@ const Hero = () => {
                             {t('nav.contact')}
                         </a>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Image Section */}
-                <div className="md:w-1/2 flex justify-center items-center relative">
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.8, x: 50 }}
+                    whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="md:w-1/2 flex justify-center items-center relative"
+                >
                     <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center relative z-10 bg-slate-50/50 dark:bg-slate-800/50 backdrop-blur-sm overflow-hidden group">
                         <img
                             src="/profile.png"
@@ -69,7 +82,7 @@ const Hero = () => {
                     </div>
                     {/* Decorative elements behind image */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-tr from-blue-500/30 to-purple-500/30 blur-2xl -z-10 animate-pulse"></div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

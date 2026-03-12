@@ -1,5 +1,6 @@
 import { useLanguage } from '../context/LanguageContext';
 import { User, Code2, Rocket } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const About = () => {
     const { t } = useLanguage();
@@ -10,14 +11,26 @@ const About = () => {
             <div className="absolute top-40 left-0 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl -z-10"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white inline-block relative">
                         {t('nav.about')}
                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
                     </h2>
-                </div>
+                </motion.div>
 
-                <div className="flex flex-col md:flex-row gap-12 items-start justify-center">
+                <motion.div 
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="flex flex-col md:flex-row gap-12 items-start justify-center"
+                >
 
                     {/* Main Text Content */}
                     <div className="md:w-7/12 bg-slate-50 dark:bg-slate-800/50 p-8 md:p-10 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 font-medium leading-relaxed text-slate-700 dark:text-slate-300">
@@ -62,7 +75,7 @@ const About = () => {
                         </div>
                     </div>
 
-                </div>
+                </motion.div>
             </div>
         </section>
     );

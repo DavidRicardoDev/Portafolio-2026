@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import * as Icons from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Skills = () => {
     const { t, language } = useLanguage();
@@ -33,21 +34,31 @@ const Skills = () => {
     return (
         <section id="skills" className="py-20 bg-slate-50 dark:bg-slate-900 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-12"
+                >
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white inline-block relative">
                         {t('nav.skills')}
                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
                     </h2>
-                </div>
+                </motion.div>
 
                 <div className="flex flex-wrap justify-center items-start gap-6">
-                    {skills.map((skill) => {
+                    {skills.map((skill, i) => {
                         const isActive = activeSkill === skill.id;
                         const desc = language === 'es' ? skill.description_es : skill.description_en;
 
                         return (
-                            <div
+                            <motion.div
                                 key={skill.id}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.4, delay: i * 0.05 }}
                                 onMouseEnter={() => setActiveSkill(skill.id)}
                                 onClick={() => setActiveSkill(isActive ? null : skill.id)}
                                 onMouseLeave={() => setActiveSkill(null)}
@@ -70,7 +81,7 @@ const Skills = () => {
                                     <div className="absolute -top-[7px] left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-white dark:bg-slate-800 border-t border-l border-slate-200 dark:border-slate-700 transform rotate-45"></div>
                                     <span className="relative z-10 font-medium leading-relaxed">{desc}</span>
                                 </div>
-                            </div>
+                            </motion.div>
                         )
                     })}
                 </div>

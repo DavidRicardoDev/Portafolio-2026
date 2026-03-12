@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Github, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
     const { t, language } = useLanguage();
@@ -41,17 +42,27 @@ const Projects = () => {
     return (
         <section id="projects" className="py-20 bg-white dark:bg-slate-900 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-12"
+                >
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white inline-block relative">
                         {t('nav.projects')}
                         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
                     </h2>
-                </div>
+                </motion.div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {(showAll ? projects : projects.slice(0, 3)).map((project) => (
-                        <div 
+                    {(showAll ? projects : projects.slice(0, 3)).map((project, i) => (
+                        <motion.div 
                             key={project.id} 
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: i * 0.1 }}
                             onClick={() => handleCardClick(project)}
                             className={`bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col group/card ${project.status !== 'construction' && project.demo_url ? 'cursor-pointer' : ''}`}
                         >
@@ -141,7 +152,7 @@ const Projects = () => {
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 

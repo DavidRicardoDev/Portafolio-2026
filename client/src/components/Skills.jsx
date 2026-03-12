@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import * as Icons from 'lucide-react';
 import { motion } from 'framer-motion';
+import { API_URL } from '../config';
 
 const Skills = () => {
     const { t, language } = useLanguage();
@@ -9,7 +10,7 @@ const Skills = () => {
     const [activeSkill, setActiveSkill] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/skills')
+        fetch(`${API_URL}/api/skills`)
             .then(res => res.json())
             .then(data => setSkills(data))
             .catch(err => console.error('Error fetching skills:', err));

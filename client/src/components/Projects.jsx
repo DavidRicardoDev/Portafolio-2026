@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { Github, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { API_URL } from '../config';
 
 const Projects = () => {
     const { t, language } = useLanguage();
@@ -11,7 +12,7 @@ const Projects = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/projects')
+        fetch(`${API_URL}/api/projects`)
             .then(res => res.json())
             .then(data => setProjects(data))
             .catch(err => console.error('Error fetching projects:', err));

@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { Send, Mail, MapPin } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
+import { API_URL } from '../config';
 
 const Contact = () => {
     const { t } = useLanguage();
@@ -16,7 +17,7 @@ const Contact = () => {
 
         try {
             // First, save to our database (Optional, but good for backup)
-            await fetch('http://localhost:3000/api/contact', {
+            await fetch(`${API_URL}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Plus, Trash2, Edit3, Home, X, Save, Layers, Code2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL } from '../config';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -40,8 +41,8 @@ const AdminDashboard = () => {
         setIsLoading(true);
         try {
             const [projRes, skillRes] = await Promise.all([
-                fetch('http://localhost:3000/api/projects'),
-                fetch('http://localhost:3000/api/skills')
+                fetch(`${API_URL}/api/projects`),
+                fetch(`${API_URL}/api/skills`)
             ]);
             const projData = await projRes.json();
             const skillData = await skillRes.json();
@@ -65,7 +66,7 @@ const AdminDashboard = () => {
     const deleteProject = async (id) => {
         if (!window.confirm('¿Seguro que deseas eliminar este proyecto?')) return;
         try {
-            const res = await fetch(`http://localhost:3000/api/projects/${id}`, {
+            const res = await fetch(`${API_URL}/api/projects/${id}`, {
                 method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -101,7 +102,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         const techArray = projectForm.technologies.split(',').map(t => t.trim()).filter(t => t);
         const payload = { ...projectForm, technologies: techArray };
-        const url = editingProjectId ? `http://localhost:3000/api/projects/${editingProjectId}` : 'http://localhost:3000/api/projects';
+        const url = editingProjectId ? `${API_URL}/api/projects/${editingProjectId}` : `${API_URL}/api/projects`;
         const method = editingProjectId ? 'PUT' : 'POST';
 
         try {
@@ -123,7 +124,7 @@ const AdminDashboard = () => {
     const deleteSkill = async (id) => {
         if (!window.confirm('¿Seguro que deseas eliminar esta habilidad?')) return;
         try {
-            const res = await fetch(`http://localhost:3000/api/skills/${id}`, {
+            const res = await fetch(`${API_URL}/api/skills/${id}`, {
                 method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -151,7 +152,7 @@ const AdminDashboard = () => {
 
     const saveSkill = async (e) => {
         e.preventDefault();
-        const url = editingSkillId ? `http://localhost:3000/api/skills/${editingSkillId}` : 'http://localhost:3000/api/skills';
+        const url = editingSkillId ? `${API_URL}/api/skills/${editingSkillId}` : `${API_URL}/api/skills`;
         const method = editingSkillId ? 'PUT' : 'POST';
 
         try {

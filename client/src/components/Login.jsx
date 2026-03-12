@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { API_URL } from '../config';
 
 const Login = () => {
     const [password, setPassword] = useState('');
@@ -16,7 +17,7 @@ const Login = () => {
         setError('');
 
         try {
-            const res = await fetch('http://localhost:3000/api/login', {
+            const res = await fetch(`${API_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })

@@ -70,7 +70,7 @@ app.get('/api/projects', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error('Project fetch error:', err);
-    res.status(500).json({ error: 'Failed to fetch projects' });
+    res.status(500).json({ error: 'Failed to fetch projects', details: err.message });
   }
 });
 
@@ -122,7 +122,7 @@ app.get('/api/skills', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error('Skills fetch error:', err);
-    res.status(500).json({ error: 'Failed to fetch skills' });
+    res.status(500).json({ error: 'Failed to fetch skills', details: err.message });
   }
 });
 

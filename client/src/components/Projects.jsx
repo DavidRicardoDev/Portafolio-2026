@@ -14,8 +14,18 @@ const Projects = () => {
     useEffect(() => {
         fetch(`${API_URL}/api/projects`)
             .then(res => res.json())
-            .then(data => setProjects(data))
-            .catch(err => console.error('Error fetching projects:', err));
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setProjects(data);
+                } else {
+                    console.error('API returned non-array:', data);
+                    setProjects([]);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching projects:', err);
+                setProjects([]);
+            });
     }, []);
 
     // Helper to safely get technologies array

@@ -12,8 +12,18 @@ const Skills = () => {
     useEffect(() => {
         fetch(`${API_URL}/api/skills`)
             .then(res => res.json())
-            .then(data => setSkills(data))
-            .catch(err => console.error('Error fetching skills:', err));
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setSkills(data);
+                } else {
+                    console.error('API returned non-array:', data);
+                    setSkills([]);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching skills:', err);
+                setSkills([]);
+            });
     }, []);
 
     // Simplified Icon Mapping

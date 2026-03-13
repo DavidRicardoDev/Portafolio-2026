@@ -4,12 +4,12 @@
 
 ## ✨ Características Principales
 
-- **🎨 Diseño Moderno & Premium**: Interfaz fluida con animaciones suaves, modo oscuro/claro y efectos de gradiente corporativos.
-- **🌍 Totalmente Bilingüe**: Soporte completo para Español e Inglés con persistencia de idioma mediante React Context.
-- **📱 Responsivo & Táctil**: Optimizado para dispositivos móviles con interacciones adaptadas específicamente para pantallas táctiles (como tooltips expandibles).
+- **🎨 Diseño Moderno & Premium**: Interfaz fluida con animaciones suaves (Framer Motion), modo oscuro/claro y efectos de gradiente.
+- **🌍 Totalmente Bilingüe**: Soporte completo para Español e Inglés con persistencia de idioma.
+- **🔐 Panel de Administración (Admin Dashboard)**: Sistema seguro con autenticación JWT para gestionar Proyectos y Habilidades (CRUD completo) sin tocar código.
+- **📱 Responsivo & Táctil**: Optimizado para dispositivos móviles con interacciones adaptadas.
 - **🛠️ Stack Tecnológico Real**: Integración de Frontend (React + Vite) con Backend (Node.js + Express) y base de datos relacional (MySQL).
-- **📧 Formulario de Contacto Pro**: Envío de correos directos mediante EmailJS con respaldo automático en base de datos local para redundancia.
-- **🚀 Demo Integrada**: Incluye un Gestor de Tareas Full Stack funcional para demostrar operaciones CRUD en tiempo real.
+- **📧 Formulario de Contacto Pro**: Envío de correos directos mediante EmailJS con respaldo automático en base de datos local.
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -30,7 +30,7 @@ Sigue estos pasos para ejecutar el proyecto localmente:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/portfolio-2026.git
+git clone https://github.com/DavidRicardoDev/Portafolio-2026.git
 cd portfolio-2026
 ```
 
@@ -46,6 +46,8 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASS=tu_contraseña
 DB_NAME=portfolio_db
+ADMIN_PASSWORD=tu_contraseña_maestra
+JWT_SECRET=tu_secreto_seguro_jwt
 ```
 Importa el contenido de `schema.sql` en tu MySQL para generar las tablas.
 

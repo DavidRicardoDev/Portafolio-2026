@@ -63,6 +63,71 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', server_time: new Date() });
 });
 
+// INITIALIZE DATABASE SCHEMA (For Deployment)
+app.post('/api/setup', async (req, res) => {
+  const { password } = req.body;
+  if (password !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Unauthorized to initialize database' });
+  }
+
+  const queries = `
+    CREATE TABLE IF NOT EXISTS projects (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title_es VARCHAR(255) NOT NULL,
+        title_en VARCHAR(255) NOT NULL,
+        description_es TEXT,
+        description_en TEXT,
+        image_url VARCHAR(255),
+        technologies JSON,
+        repo_url VARCHAR(255),
+        demo_url VARCHAR(255),
+        status ENUM('completed', 'construction') DEFAULT 'completed',
+        is_placeholder BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS skills (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) UNIQUE NOT NULL,
+        category ENUM('frontend', 'backend', 'tools', 'soft') NOT NULL,
+        icon_class VARCHAR(50),
+        description_es TEXT,
+        description_en TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS messages (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS todos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        text VARCHAR(255) NOT NULL,
+        completed BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    INSERT IGNORE INTO skills (name, category, icon_class, description_es, description_en) VALUES 
+    ('React', 'frontend', 'react', 'Creación de interfaces web interactivas y escalables con componentes reutilizables.', 'Building interactive and scalable web interfaces with reusable components.'),
+    ('Tailwind CSS', 'frontend', 'palette', 'Diseño responsivo y moderno aplicando estilos eficientemente mediante clases utilitarias.', 'Modern and responsive design through efficient utility-first styling.'),
+    ('Node.js', 'backend', 'server', 'Desarrollo de APIs RESTful y servicios backend rápidos y escalables.', 'Developing fast and scalable RESTful APIs and backend services.'),
+    ('MySQL', 'backend', 'database', 'Diseño de esquemas y gestión de bases de datos relacionales robustas.', 'Database schema design and management of robust relational databases.'),
+    ('Python', 'backend', 'python', 'Desarrollo de aplicaciones de escritorio, scripting avanzado y soluciones backend.', 'Desktop application development, advanced scripting, and backend solutions.');
+  `;
+
+  try {
+    // Requires multipleStatements: true in mysql2 connection
+    await db.query(queries);
+    res.json({ message: 'Database tables and seed data created successfully!' });
+  } catch (err) {
+    console.error('Setup error:', err);
+    res.status(500).json({ error: 'Failed to setup database', details: err.message });
+  }
+});
+
 // GET /api/projects - Fetches all projects, real ones first
 app.get('/api/projects', async (req, res) => {
   try {

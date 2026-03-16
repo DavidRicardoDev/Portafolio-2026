@@ -120,9 +120,20 @@ app.post('/api/setup', async (req, res) => {
   `;
 
   try {
-    // Requires multipleStatements: true in mysql2 connection
+    // 1. Create all base tables
     await db.query(queries);
-    res.json({ message: 'Database tables and seed data created successfully!' });
+    
+    // 2. Safely attempt to inject the new column if updating an existing older database
+    try {
+        await db.query('ALTER TABLE projects ADD COLUMN sort_order INT DEFAULT 0;');
+    } catch(e) {
+        // If it throws ER_DUP_FIELDNAME (1060), it means the column already exists.
+        if (e.code !== 'ER_DUP_FIELDNAME') {
+            console.error('Non-critical ALTER TABLE error:', e.message);
+        }
+    }
+
+    res.json({ message: 'Database tables and schema upgrades applied successfully!' });
   } catch (err) {
     console.error('Setup error:', err);
     res.status(500).json({ error: 'Failed to setup database', details: err.message });

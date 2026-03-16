@@ -8,8 +8,10 @@ const Skills = () => {
     const { t, language } = useLanguage();
     const [skills, setSkills] = useState([]);
     const [activeSkill, setActiveSkill] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        setIsLoading(true);
         fetch(`${API_URL}/api/skills`)
             .then(res => res.json())
             .then(data => {
@@ -23,6 +25,9 @@ const Skills = () => {
             .catch(err => {
                 console.error('Error fetching skills:', err);
                 setSkills([]);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -58,8 +63,16 @@ const Skills = () => {
                     </h2>
                 </motion.div>
 
-                <div className="flex flex-wrap justify-center items-start gap-6">
-                    {skills.map((skill, i) => {
+                {isLoading ? (
+                    <div className="flex flex-col items-center justify-center py-10 opacity-80">
+                        <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mb-4"></div>
+                        <h3 className="text-lg font-medium text-slate-700 dark:text-slate-300 animate-pulse">
+                            {language === 'es' ? 'Cargando habilidades...' : 'Loading skills...'}
+                        </h3>
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap justify-center items-start gap-6">
+                        {skills.map((skill, i) => {
                         const isActive = activeSkill === skill.id;
                         const desc = language === 'es' ? skill.description_es : skill.description_en;
 
@@ -95,7 +108,8 @@ const Skills = () => {
                             </motion.div>
                         )
                     })}
-                </div>
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -9,9 +9,11 @@ const Projects = () => {
     const { t, language } = useLanguage();
     const [projects, setProjects] = useState([]);
     const [showAll, setShowAll] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setIsLoading(true);
         fetch(`${API_URL}/api/projects`)
             .then(res => res.json())
             .then(data => {
@@ -25,6 +27,9 @@ const Projects = () => {
             .catch(err => {
                 console.error('Error fetching projects:', err);
                 setProjects([]);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -66,8 +71,22 @@ const Projects = () => {
                     </h2>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {(showAll ? projects : projects.slice(0, 3)).map((project, i) => (
+                {isLoading ? (
+                    <div className="flex flex-col items-center justify-center py-20 opacity-80">
+                        <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-6"></div>
+                        <h3 className="text-xl font-medium text-slate-700 dark:text-slate-300 animate-pulse">
+                            {language === 'es' ? 'Cargando portafolio...' : 'Loading portfolio...'}
+                        </h3>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-md text-center">
+                            {language === 'es' 
+                                ? 'Despertando el servidor en la nube. Esto puede tomar unos 30 segundos la primera vez.' 
+                                : 'Waking up the cloud server. This might take up to 30 seconds the first time.'}
+                        </p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {(showAll ? projects : projects.slice(0, 3)).map((project, i) => (
                         <motion.div 
                             key={project.id} 
                             initial={{ opacity: 0, y: 50 }}
@@ -182,6 +201,8 @@ const Projects = () => {
                             </svg>
                         </button>
                     </div>
+                )}
+                    </>
                 )}
             </div>
         </section>

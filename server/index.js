@@ -83,6 +83,7 @@ app.post('/api/setup', async (req, res) => {
         demo_url VARCHAR(255),
         status ENUM('completed', 'construction') DEFAULT 'completed',
         is_placeholder BOOLEAN DEFAULT FALSE,
+        sort_order INT DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -128,10 +129,10 @@ app.post('/api/setup', async (req, res) => {
   }
 });
 
-// GET /api/projects - Fetches all projects, real ones first
+// GET /api/projects - Fetches all projects
 app.get('/api/projects', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM projects ORDER BY is_placeholder ASC, created_at DESC');
+    const [rows] = await db.query('SELECT * FROM projects ORDER BY sort_order ASC, created_at DESC');
     res.json(rows);
   } catch (err) {
     console.error('Project fetch error:', err);
@@ -141,11 +142,11 @@ app.get('/api/projects', async (req, res) => {
 
 // POST /api/projects (Protected)
 app.post('/api/projects', verifyToken, async (req, res) => {
-  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder } = req.body;
+  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder, sort_order } = req.body;
   try {
     const [result] = await db.query(
-      'INSERT INTO projects (title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status || 'completed', is_placeholder || false]
+      'INSERT INTO projects (title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status || 'completed', is_placeholder || false, sort_order || 0]
     );
     res.json({ id: result.insertId, message: 'Project created successfully' });
   } catch (err) {
@@ -156,11 +157,11 @@ app.post('/api/projects', verifyToken, async (req, res) => {
 
 // PUT /api/projects/:id (Protected)
 app.put('/api/projects/:id', verifyToken, async (req, res) => {
-  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder } = req.body;
+  const { title_es, title_en, description_es, description_en, technologies, repo_url, demo_url, image_url, status, is_placeholder, sort_order } = req.body;
   try {
     await db.query(
-      'UPDATE projects SET title_es=?, title_en=?, description_es=?, description_en=?, technologies=?, repo_url=?, demo_url=?, image_url=?, status=?, is_placeholder=? WHERE id=?',
-      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status, is_placeholder, req.params.id]
+      'UPDATE projects SET title_es=?, title_en=?, description_es=?, description_en=?, technologies=?, repo_url=?, demo_url=?, image_url=?, status=?, is_placeholder=?, sort_order=? WHERE id=?',
+      [title_es, title_en, description_es, description_en, JSON.stringify(technologies), repo_url, demo_url, image_url, status, is_placeholder, sort_order || 0, req.params.id]
     );
     res.json({ message: 'Project updated successfully' });
   } catch (err) {

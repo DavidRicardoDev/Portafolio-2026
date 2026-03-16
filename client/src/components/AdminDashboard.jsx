@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     const [projectForm, setProjectForm] = useState({
         title_es: '', title_en: '', description_es: '', description_en: '',
         technologies: '', repo_url: '', demo_url: '', image_url: '',
-        status: 'completed', is_placeholder: false
+        status: 'completed', is_placeholder: false, sort_order: 0
     });
 
     // --- Skills State ---
@@ -85,14 +85,15 @@ const AdminDashboard = () => {
                 technologies: typeof project.technologies === 'string' ? JSON.parse(project.technologies).join(', ') : (project.technologies?.join(', ') || ''),
                 repo_url: project.repo_url || '', demo_url: project.demo_url || '',
                 image_url: project.image_url || '', status: project.status || 'completed',
-                is_placeholder: Boolean(project.is_placeholder)
+                is_placeholder: Boolean(project.is_placeholder),
+                sort_order: project.sort_order || 0
             });
         } else {
             setEditingProjectId(null);
             setProjectForm({
                 title_es: '', title_en: '', description_es: '', description_en: '',
                 technologies: '', repo_url: '', demo_url: '', image_url: '',
-                status: 'completed', is_placeholder: false
+                status: 'completed', is_placeholder: false, sort_order: 0
             });
         }
         setIsProjectModalOpen(true);
@@ -241,7 +242,10 @@ const AdminDashboard = () => {
                                     return (
                                     <tr key={project.id} className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                                         <td className="p-4 font-medium text-slate-800 dark:text-slate-200">
-                                            {project.title_es}
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded">#{project.sort_order}</span>
+                                                {project.title_es}
+                                            </div>
                                             <div className="text-xs text-slate-400 font-normal mt-1 truncate max-w-xs">{techList}</div>
                                         </td>
                                         <td className="p-4">
@@ -348,8 +352,14 @@ const AdminDashboard = () => {
                                     <div><label className="block text-sm font-medium mb-2 dark:text-white text-left">URL Demo</label><input type="text" value={projectForm.demo_url} onChange={e => setProjectForm({...projectForm, demo_url: e.target.value})} className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border dark:border-slate-700 dark:text-white" /></div>
                                 </div>
                                 <div><label className="block text-sm font-medium mb-2 dark:text-white text-left">URL Imagen (Ej: /projects/foto.jpg)</label><input type="text" value={projectForm.image_url} onChange={e => setProjectForm({...projectForm, image_url: e.target.value})} className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border dark:border-slate-700 dark:text-white" /></div>
-                                <div className="flex gap-8 p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border dark:border-slate-700">
-                                    <label className="flex items-center gap-2 cursor-pointer dark:text-white"><input type="checkbox" checked={projectForm.status === 'construction'} onChange={e => setProjectForm({...projectForm, status: e.target.checked ? 'construction' : 'completed'})} className="w-5 h-5" /> En Construcción</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border dark:border-slate-700">
+                                        <label className="flex items-center gap-2 cursor-pointer dark:text-white"><input type="checkbox" checked={projectForm.status === 'construction'} onChange={e => setProjectForm({...projectForm, status: e.target.checked ? 'construction' : 'completed'})} className="w-5 h-5" /> En Construcción</label>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2 dark:text-white text-left">Orden de Visualización (#)</label>
+                                        <input type="number" value={projectForm.sort_order} onChange={e => setProjectForm({...projectForm, sort_order: parseInt(e.target.value) || 0})} className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 dark:text-white" />
+                                    </div>
                                 </div>
                             </form>
                         </div>

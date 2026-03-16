@@ -46,8 +46,22 @@ const AdminDashboard = () => {
             ]);
             const projData = await projRes.json();
             const skillData = await skillRes.json();
-            setProjects(projData);
-            setSkills(skillData);
+            
+            if (Array.isArray(projData)) {
+                setProjects(projData);
+            } else {
+                console.error('Projects error:', projData);
+                setProjects([]);
+                toast.error('Error cargando proyectos');
+            }
+
+            if (Array.isArray(skillData)) {
+                setSkills(skillData);
+            } else {
+                console.error('Skills error:', skillData);
+                setSkills([]);
+                toast.error('Error cargando habilidades');
+            }
         } catch (err) {
             toast.error('Error cargando datos');
         } finally {
